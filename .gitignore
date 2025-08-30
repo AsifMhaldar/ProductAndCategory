@@ -1,0 +1,4 @@
+
+# DB connection
+.env
+node_modules/
