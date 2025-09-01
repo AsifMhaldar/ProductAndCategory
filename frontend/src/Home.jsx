@@ -1,11 +1,11 @@
-import React from 'react'
-import { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Home() {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+
     const recordsPerPage = 10;
     const lastIndex = currentPage * recordsPerPage;
     const firstIndex = lastIndex - recordsPerPage;
@@ -14,26 +14,25 @@ function Home() {
     const numbers = [...Array(nPages).keys()].map(num => num + 1);
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-        .then((response) => {
-            setData(response.data);
-        })
-        .catch((error) => {
-            console.error("Error fetching data:", error);
-        });
+        axios.get('http://localhost:8081/api/products')
+            .then((response) => {
+                setData(Array.isArray(response.data) ? response.data : []);
+            })
+            .catch((error) => {
+                console.error("Error fetching products:", error);
+            });
     }, []);
 
-    const handleDelete = (id) =>{
-        axios.delete(`http://localhost:8081/delete/${id}`)
-        .then((response) => {
-            setData(data.filter(item => item.id !== id));
-        })
-        .catch((error) => {
-            console.error("Error deleting product:", error);
-        });
-    }
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:8081/api/products/${id}`)
+            .then(() => {
+                setData(data.filter(item => item.id !== id));
+            })
+            .catch((error) => {
+                console.error("Error deleting product:", error);
+            });
+    };
 
-    // Move these functions inside the component
     const prevPage = (e) => {
         e.preventDefault();
         if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -51,11 +50,13 @@ function Home() {
     return (
         <div className='d-flex justify-content-center align-items-center min-vh-100 p-3'>
             <div className='bg-white p-4 rounded'>
-                <Link to="/category" className="btn btn-primary">Category</Link>
-                <h2>Products Master</h2>
+                <Link to="/category" className="btn btn-secondary">Category</Link>
+                <h2 className="mt-3">Products Master</h2>
+
                 <div className='d-flex justify-content-end mb-3'>
                     <Link to="/create" className="btn btn-primary">+ Add Product</Link>
                 </div>
+
                 <table className='table'>
                     <thead>
                         <tr>
@@ -72,39 +73,36 @@ function Home() {
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
                                 <td>{item.price}</td>
-                                <td>{item.category}</td>
+                                <td>{item.category || "No Category"}</td>
                                 <td>
-                                    <Link to={`/products/${item.id}`} className='btn btn-sm btn-info '>Read</Link>
-                                    <Link to={`/edit/${item.id}`} className='btn btn-sm btn-primary mx-2'>Edit</Link>
-                                    <button onClick={() => handleDelete(item.id)} className='btn btn-sm btn-danger'>Delete</button>
+                                    <Link to={`/products/${item.id}`} className='btn btn-sm btn-info'>Read</Link>
+                                    <Link to={`/edit/${item.id}`} className='btn btn-sm btn-primary mx-2'>Update</Link>
+                                    <button onClick={() => handleDelete(item.id)} className='btn btn-sm btn-danger'>
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+
                 <nav>
                     <ul className='pagination'>
                         <li className='page-item'>
-                            <a href='#' className='page-link' onClick={prevPage}>
-                                Prev
-                            </a>
+                            <a href='#' className='page-link' onClick={prevPage}>Prev</a>
                         </li>
-                        {
-                            numbers.map((number, i) => (
-                                <li className={`page-item ${currentPage === number ? 'active' : ''}`} key={i}>
-                                    <a href='#' className='page-link' onClick={() => changePage(number)}>
-                                        {number}
-                                    </a>
-                                </li>
-                            ))
-                        }
-
-                        
-
+                        {numbers.map((number, i) => (
+                            <li
+                                className={`page-item ${currentPage === number ? 'active' : ''}`}
+                                key={i}
+                            >
+                                <a href='#' className='page-link' onClick={() => changePage(number)}>
+                                    {number}
+                                </a>
+                            </li>
+                        ))}
                         <li className='page-item'>
-                            <a href='#' className='page-link' onClick={nextPage}>
-                                Next
-                            </a>
+                            <a href='#' className='page-link' onClick={nextPage}>Next</a>
                         </li>
                     </ul>
                 </nav>
