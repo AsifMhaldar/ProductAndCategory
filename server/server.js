@@ -17,7 +17,6 @@ app.use(express.json());
 connectDB()
   .then(() => console.log("Database ready"))
   .catch(err => {
-    console.error("Database connection failed:", err);
     process.exit(1);
   });
 
@@ -26,9 +25,9 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 
 
-app.get('/', (req, res) => {
-  res.send('🚀 API is running...');
-});
+// app.get('/', (req, res) => {
+//   res.send('API is running...');
+// });
 
 
 const PORT = process.env.PORT || 8081;

@@ -21,7 +21,7 @@ export const getProductById = async (id) => {
      WHERE products.id = ?`,
     [id]
   );
-  return rows[0]; // single product
+  return rows[0];
 };
 
 

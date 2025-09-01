@@ -5,7 +5,6 @@ export const getProducts = async (req, res) => {
     const rows = await Product.getProducts();
     res.json(rows);
   } catch (err) {
-    console.error("Error fetching products:", err);
     res.status(500).json({ message: "Error fetching products", error: err.message });
   }
 };

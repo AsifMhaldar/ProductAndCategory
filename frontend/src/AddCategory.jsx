@@ -13,7 +13,6 @@ function AddCategory() {
         e.preventDefault();
         axios.post('http://localhost:8081/api/categories', values)
             .then((response) => {
-                console.log("Category created:", response.data);
                 navigate('/category'); 
             })
             .catch((error) => {

@@ -22,7 +22,6 @@ function Create() {
         e.preventDefault();
         axios.post('http://localhost:8081/api/products', values)
             .then((response) => {
-                console.log("Product created:", response.data);
                 navigate('/');
             })
             .catch((error) => {

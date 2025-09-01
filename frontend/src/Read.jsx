@@ -11,7 +11,6 @@ function Read() {
       axios
         .get(`http://localhost:8081/api/products/${id}`)
         .then((response) => {
-          console.log(response.data);
           setProduct(response.data);
         })
         .catch((error) => {
@@ -20,13 +19,6 @@ function Read() {
     }
   }, [id]);
 
-  if (!product) {
-    return (
-      <div className="d-flex vh-100 justify-content-center align-items-center">
-        <h3 className="text-white">Loading...</h3>
-      </div>
-    );
-  }
 
   return (
     <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">

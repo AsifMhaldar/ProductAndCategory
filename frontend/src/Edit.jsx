@@ -45,7 +45,6 @@ function Edit() {
     axios
       .put(`http://localhost:8081/api/products/${id}`, values)
       .then((response) => {
-        console.log('Product updated successfully:', response.data);
         navigate('/');
       })
       .catch((error) => {

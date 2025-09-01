@@ -26,7 +26,6 @@ function EditCategory() {
     axios
       .put(`http://localhost:8081/api/categories/${id}`, values)
       .then(() => {
-        console.log('Category updated successfully');
         navigate('/category');
       })
       .catch((err) => {

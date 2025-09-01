@@ -19,7 +19,6 @@ function Category() {
     const handleDelete = (id) => {
         axios.delete(`http://localhost:8081/api/categories/${id}`)
             .then((response) => {
-                console.log("Category deleted successfully:", response.data);
                 setData(data.filter(item => item.id !== id));
             })
             .catch((error) => {

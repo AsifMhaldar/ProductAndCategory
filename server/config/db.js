@@ -13,7 +13,7 @@ export const connectDB = async () => {
 
     
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DATABASE}\``);
-    console.log(`Database "${process.env.DATABASE}" created/checked.`);
+    console.log("Database Created...");
 
    
     db = await mysql.createConnection({
@@ -41,7 +41,7 @@ export const connectDB = async () => {
       )
     `);
 
-    console.log("Tables 'categories' and 'products' are ready.");
+    console.log("Tables Created...");
   }
   return db;
 };
